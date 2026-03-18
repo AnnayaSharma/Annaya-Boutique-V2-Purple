@@ -26,9 +26,9 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="relative h-[70vh] md:h-[90vh] w-full overflow-hidden">
         <Image
-          src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=1400&auto=format&fit=crop"
+          src="/Hero Image.jpeg"
           alt="Royal Collection" fill priority
-          className="object-cover object-center"
+          className="object-cover object-center md:object-[center_20%]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-deep-purple/80 via-deep-purple/20 to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-24 pb-20 md:pb-32">
@@ -113,36 +113,36 @@ export default async function HomePage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-serif font-bold text-[#002E5D]">What Our Customers Say</h2>
           </div>
-          <div className="flex gap-6 overflow-x-auto hide-scrollbar pb-8 snap-x snap-mandatory">
+          <div className="grid grid-rows-3 grid-flow-col gap-4 md:gap-6 overflow-x-auto hide-scrollbar pb-8 snap-x snap-mandatory scroll-smooth">
             {[
-              { name: 'Lavanya', subtitle: 'One Year With Us', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Aisha&backgroundColor=b6e3f4', text: 'The kurti I ordered arrived on time, looked exactly like the picture — and was even more beautiful in person! The quality is high and the fit is perfect. Thank you, Annaya Boutique!' },
-              { name: 'Priya S.', subtitle: 'Six Months With Us', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Neha&backgroundColor=c0aede', text: 'The quality of the Banarasi Silk is unmatched. I wore the Lehengas for my sisters wedding and I truly felt like royalty. Absolute perfection!' },
-              { name: 'Megha R.', subtitle: 'First time buyer', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Megha&backgroundColor=ffdfbf', text: 'Exceptional craftsmanship. You can see the attention to detail in the embroidery. The packaging itself was a luxurious experience.' },
-              { name: 'Aisha K.', subtitle: 'Loyal Customer', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Aisha&backgroundColor=d1e8e2', text: 'I am in love with their latest collection! The colors are vibrant and the fabric is incredibly soft. I highly recommend them for festive wear.' },
-              { name: 'Sneha P.', subtitle: 'Recent Buyer', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Sneha&backgroundColor=ffc6c4', text: 'I was hesitant about buying ethnic wear online, but Annaya Boutique exceeded my expectations. The sizing guide was perfectly accurate.' },
-              { name: 'Kavita M.', subtitle: 'Two Years With Us', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Kavita&backgroundColor=a8e6cf', text: 'Every time I wear an outfit from Annaya, I receive so many compliments. Their designs truly make you stand out from the crowd in the best way possible.' },
-              { name: 'Riya J.', subtitle: 'First time buyer', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Riya&backgroundColor=ffd3b6', text: 'The customer service is outstanding. They helped me choose the right size and ensured the delivery reached me before my event. Oh, and the dress is gorgeous!' },
-              { name: 'Neha V.', subtitle: 'Regular Shopper', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Neha&backgroundColor=ffaaa5', text: 'I appreciate the blend of traditional motifs with contemporary cuts. It makes their clothing so versatile for both family functions and formal office parties.' },
-              { name: 'Shruti T.', subtitle: 'Three Months With Us', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Shruti&backgroundColor=d4a5a5', text: 'Bought a stunning Anarkali suit. The flare is exactly as shown in the video and the tassels add such a cute touch. Definitely coming back for more.' },
-              { name: 'Aditi D.', subtitle: 'First time buyer', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Aditi&backgroundColor=9dc88d', text: 'The stitching is impeccable, no loose threads anywhere. You can genuinely tell they care about the quality of the garments they produce and sell.' },
-              { name: 'Simran K.', subtitle: 'One Year With Us', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Simran&backgroundColor=f1cbff', text: 'I ordered the pastel floral lehenga for my best friend\'s reception. It was lightweight, breathable, and an absolute dream to twirl in!' },
-              { name: 'Tanya B.', subtitle: 'Frequent Buyer', image: 'https://api.dicebear.com/7.x/lorelei/svg?seed=Tanya&backgroundColor=abecd6', text: 'My go-to place for last-minute ethnic outfits. Deliveries are always prompt and I never have to worry about alterations. Perfectly tailored!' }
+              { name: 'Lavanya', subtitle: 'One Year With Us', image: './1.jpg', text: 'The kurti I ordered arrived on time, looked exactly like the picture — and was even more beautiful in person! The quality is high and the fit is perfect. Thank you, Annaya Boutique!' },
+              { name: 'Priya S.', subtitle: 'Six Months With Us', image: './2.jpg', text: 'The quality of the Banarasi Silk is unmatched. I wore the Lehengas for my sisters wedding and I truly felt like royalty. Absolute perfection!' },
+              { name: 'Megha R.', subtitle: 'First time buyer', image: './3.jpg', text: 'Exceptional craftsmanship. You can see the attention to detail in the embroidery. The packaging itself was a luxurious experience.' },
+              { name: 'Aisha K.', subtitle: 'Loyal Customer', image: './4.jpg', text: 'I am in love with their latest collection! The colors are vibrant and the fabric is incredibly soft. I highly recommend them for festive wear.' },
+              { name: 'Sneha P.', subtitle: 'Recent Buyer', image: './5.jpg', text: 'I was hesitant about buying ethnic wear online, but Annaya Boutique exceeded my expectations. The sizing guide was perfectly accurate.' },
+              { name: 'Kavita M.', subtitle: 'Two Years With Us', image: './6.jpg', text: 'Every time I wear an outfit from Annaya, I receive so many compliments. Their designs truly make you stand out from the crowd in the best way possible.' },
+              { name: 'Riya J.', subtitle: 'First time buyer', image: './1.jpg', text: 'The customer service is outstanding. They helped me choose the right size and ensured the delivery reached me before my event. Oh, and the dress is gorgeous!' },
+              { name: 'Neha V.', subtitle: 'Regular Shopper', image: './2.jpg', text: 'I appreciate the blend of traditional motifs with contemporary cuts. It makes their clothing so versatile for both family functions and formal office parties.' },
+              { name: 'Shruti T.', subtitle: 'Three Months With Us', image: './3.jpg', text: 'Bought a stunning Anarkali suit. The flare is exactly as shown in the video and the tassels add such a cute touch. Definitely coming back for more.' },
+              { name: 'Aditi D.', subtitle: 'First time buyer', image: './4.jpg', text: 'The stitching is impeccable, no loose threads anywhere. You can genuinely tell they care about the quality of the garments they produce and sell.' },
+              { name: 'Simran K.', subtitle: 'One Year With Us', image: './5.jpg', text: 'I ordered the pastel floral lehenga for my best friend\'s reception. It was lightweight, breathable, and an absolute dream to twirl in!' },
+              { name: 'Tanya B.', subtitle: 'Frequent Buyer', image: './6.jpg', text: 'My go-to place for last-minute ethnic outfits. Deliveries are always prompt and I never have to worry about alterations. Perfectly tailored!' }
             ].map((t, i) => (
-              <div key={i} className="min-w-[320px] md:min-w-[400px] snap-center bg-white p-8 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col text-left relative">
-                <Quote size={40} className="absolute top-8 right-8 text-[#EADDCD] fill-[#EADDCD] rotate-180" />
+              <div key={i} className="w-[300px] md:w-[400px] snap-center bg-white p-6 md:p-8 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col text-left relative">
+                <Quote size={40} className="absolute top-6 md:top-8 right-6 md:right-8 text-[#EADDCD] fill-[#EADDCD] rotate-180" />
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-14 h-14 relative rounded-full overflow-hidden flex-shrink-0">
-                    <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
+                  <div className="w-12 h-12 md:w-14 md:h-14 relative rounded-full overflow-hidden flex-shrink-0">
+                    <Image src={t.image} alt={t.name} fill sizes="56px" className="object-cover" />
                   </div>
                   <div className="flex flex-col">
-                    <h4 className="font-bold text-[#002E5D] text-lg leading-tight">{t.name}</h4>
-                    <span className="text-[#8BA8CD] text-sm">{t.subtitle}</span>
+                    <h4 className="font-bold text-[#002E5D] text-base md:text-lg leading-tight">{t.name}</h4>
+                    <span className="text-[#8BA8CD] text-xs md:text-sm">{t.subtitle}</span>
                   </div>
                 </div>
-                <div className="flex gap-1 mb-4">
-                  {[1, 2, 3, 4, 5].map(s => <Star key={s} size={18} className="text-[#E0BB48] fill-[#E0BB48]" />)}
+                <div className="flex gap-1 mb-3 md:mb-4">
+                  {[1, 2, 3, 4, 5].map(s => <Star key={s} size={16} className="text-[#E0BB48] fill-[#E0BB48]" />)}
                 </div>
-                <p className="text-[#496E8F] text-[15px] leading-relaxed flex-1">"{t.text}"</p>
+                <p className="text-[#496E8F] text-sm md:text-[15px] leading-relaxed flex-1">"{t.text}"</p>
               </div>
             ))}
           </div>
