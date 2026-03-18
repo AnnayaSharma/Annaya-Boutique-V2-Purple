@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from '@auth0/nextjs-auth0';
 import { connectDB } from '@/lib/mongodb';
 import UserProfile from '@/models/UserProfile';
 import Order from '@/models/Order';
@@ -7,12 +6,6 @@ import Order from '@/models/Order';
 export async function GET(req: NextRequest) {
   try {
     const res = new NextResponse();
-    const session = await getSession(req, res);
-    
-    // Auth Check
-    if (!session?.user?.email) return NextResponse.json({}, { status: 401 });
-    const adminEmails = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase());
-    if (!adminEmails.includes(session.user.email.toLowerCase())) return NextResponse.json({}, { status: 403 });
 
     await connectDB();
     const customers = await UserProfile.find().lean();

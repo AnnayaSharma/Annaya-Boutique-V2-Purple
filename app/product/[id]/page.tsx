@@ -67,10 +67,11 @@ export default function ProductPage() {
 
   const wishlisted = isWishlisted(product.id);
 
-  const handleWhatsAppOrder = () => {
-    const url = window.location.href;
-    const msg = encodeURIComponent(`Hi, I'm interested in buying this product:\n\n*${product.name}*\nSize: ${selSize}\nColor: ${selColor}\nQuantity: ${qty}\nPrice: ₹${product.price}\n\nLink: ${url}`);
-    window.open(`https://wa.me/918309664356?text=${msg}`, '_blank');
+  const handleWhatsAppOrder = async () => {
+    if (product) {
+      await addToCart(product, selSize, selColor, qty);
+      router.push('/checkout');
+    }
   };
 
   const handleAddToCart = async () => {
@@ -78,13 +79,6 @@ export default function ProductPage() {
       await addToCart(product, selSize, selColor, qty);
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);
-    }
-  };
-
-  const handleBuyNow = async () => {
-    if (product) {
-      await addToCart(product, selSize, selColor, qty);
-      router.push('/checkout');
     }
   };
 
@@ -207,13 +201,9 @@ export default function ProductPage() {
                   className={`flex-1 h-16 rounded-2xl font-bold text-lg shadow-xl hover:bg-deep-purple transition-all active:scale-95 ${added ? 'bg-emerald-500 text-white shadow-emerald-500/20' : 'bg-royal-purple text-white shadow-royal-purple/20'}`}>
                   {added ? 'Added to Bag!' : 'Add to Bag'}
                 </button>
-                <button onClick={handleBuyNow}
-                  className="px-8 h-16 rounded-2xl border-2 border-royal-purple text-royal-purple font-bold hover:bg-royal-purple hover:text-white transition-all active:scale-95 flex items-center justify-center">
-                  Buy Now
-                </button>
                 <button onClick={handleWhatsAppOrder}
-                  className="px-8 h-16 rounded-2xl bg-[#25D366] text-white font-bold hover:bg-[#20bd5a] transition-all active:scale-95 flex items-center justify-center shadow-xl shadow-[#25D366]/20">
-                  <MessageCircle size={22} className="mr-2" /> WhatsApp
+                  className="flex-1 h-16 rounded-2xl bg-[#25D366] text-white font-bold hover:bg-[#20bd5a] transition-all active:scale-95 flex items-center justify-center shadow-xl shadow-[#25D366]/20">
+                  <MessageCircle size={22} className="mr-2" /> Buy on WhatsApp
                 </button>
               </div>
             </div>
@@ -258,17 +248,13 @@ export default function ProductPage() {
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 glass p-4 pb-6 border-t border-luxury-border flex flex-col gap-3">
         <div className="flex gap-3">
           <button onClick={handleAddToCart}
-            className={`flex-1 h-12 rounded-2xl border-2 font-bold flex items-center justify-center gap-2 active:scale-95 transition-all text-sm ${added ? 'bg-emerald-50 text-emerald-600 border-emerald-500' : 'border-royal-purple text-royal-purple'}`}>
+            className={`w-full h-12 rounded-2xl border-2 font-bold flex items-center justify-center gap-2 active:scale-95 transition-all text-sm ${added ? 'bg-emerald-50 text-emerald-600 border-emerald-500' : 'border-royal-purple text-royal-purple'}`}>
             <ShoppingBag size={18} /> {added ? 'Added!' : 'Add to Cart'}
-          </button>
-          <button onClick={handleBuyNow}
-            className="flex-1 h-12 rounded-2xl bg-royal-purple text-white font-bold shadow-lg shadow-royal-purple/20 active:scale-95 transition-transform flex items-center justify-center text-sm">
-            Buy Now
           </button>
         </div>
         <button onClick={handleWhatsAppOrder}
           className="w-full h-12 rounded-2xl bg-[#25D366] text-white font-bold shadow-lg shadow-[#25D366]/20 active:scale-95 transition-transform flex items-center justify-center gap-2 text-sm">
-          <MessageCircle size={18} /> Order via WhatsApp
+          <MessageCircle size={18} /> Buy on WhatsApp
         </button>
       </div>
     </div>

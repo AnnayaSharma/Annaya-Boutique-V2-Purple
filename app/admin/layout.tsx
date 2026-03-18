@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import { 
   LayoutDashboard, Package, Users, ShoppingCart, 
   IndianRupee, LogOut, Menu, X, Loader2
@@ -20,38 +19,7 @@ const ADMIN_LINKS = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, isLoading } = useUser();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isAdminChecked, setAdminChecked] = useState(false);
-
-  useEffect(() => {
-    if (isLoading) return;
-    
-    if (!user) {
-      router.push('/api/auth/login?returnTo=/admin');
-      return;
-    }
-
-    // Verify Admin via API securely
-    fetch('/api/admin/verify')
-      .then(res => {
-        if (!res.ok) throw new Error('Unauthorized');
-        setAdminChecked(true);
-      })
-      .catch(() => {
-        router.push('/');
-      });
-
-  }, [user, isLoading, router]);
-
-
-  if (isLoading || !isAdminChecked) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-lavender-bg">
-        <Loader2 size={40} className="animate-spin text-royal-purple" />
-      </div>
-    );
-  }
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full bg-royal-purple text-white p-6">
@@ -81,10 +49,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       <div className="mt-auto border-t border-white/20 pt-6">
         <div className="flex items-center gap-3 mb-6 px-4">
-          <img src={user?.picture || ''} alt="" className="w-10 h-10 rounded-full bg-white/20" />
+          <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center font-bold">
+            A
+          </div>
           <div className="overflow-hidden">
-            <p className="font-bold text-sm truncate">{user?.name}</p>
-            <p className="text-[10px] text-white/50 truncate">Admin</p>
+            <p className="font-bold text-sm truncate">Admin</p>
+            <p className="text-[10px] text-white/50 truncate">Portal</p>
           </div>
         </div>
         <Link href="/" className="flex items-center gap-4 px-4 py-3 rounded-xl font-bold text-red-300 hover:bg-red-500/10 transition-colors">

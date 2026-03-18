@@ -4,13 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'motion/react';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import {
-  ChevronLeft, Check, CreditCard, Truck, MapPin,
-  ArrowRight, Loader2, ShieldCheck, AlertCircle, MessageCircle
-} from 'lucide-react';
+import { ChevronLeft, Check, CreditCard, Truck, MapPin, ArrowRight, Loader2, MessageCircle, AlertCircle } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
-import { useRazorpay, RazorpayResult } from '@/hooks/useRazorpay';
 import { getImage } from '@/types';
 
 interface Address {
@@ -23,24 +18,15 @@ const PAYMENT_METHODS = ['Order via WhatsApp'];
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { user, isLoading } = useUser();
   const { cart, setLastOrderId, clearCart } = useApp();
-
-  useEffect(() => {
-    if (!isLoading && !user) {
-      router.push('/api/auth/login?returnTo=/checkout');
-    }
-  }, [user, isLoading, router]);
-
-  const { openCheckout } = useRazorpay();
 
   const [step, setStep] = useState(1);
   const [processing, setProc] = useState(false);
   const [error, setError] = useState('');
   const [payment, setPayment] = useState(PAYMENT_METHODS[0]);
   const [addr, setAddr] = useState<Address>({
-    fullName: user?.name || '', phone: '',
-    email: user?.email || '', addressLine1: '',
+    fullName: '', phone: '',
+    email: '', addressLine1: '',
     addressLine2: '', city: '', state: '', pincode: '',
   });
 
@@ -65,31 +51,11 @@ export default function CheckoutPage() {
     setError(''); setStep(s => s + 1);
   };
 
-  if (isLoading || !user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-lavender-bg pb-40">
-        <Loader2 size={40} className="animate-spin text-royal-purple" />
-      </div>
-    );
-  }
 
-  const finalise = async (rp?: RazorpayResult) => {
+
+  const finalise = async () => {
     setProc(true); setError('');
     try {
-      const res = await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: cart, shippingAddress: addr, paymentMethod: payment,
-          razorpayOrderId: rp?.razorpayOrderId,
-          razorpayPaymentId: rp?.razorpayPaymentId,
-          razorpaySignature: rp?.razorpaySignature,
-          subtotal, shipping, total,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Order failed');
-      setLastOrderId(data.order.orderId);
       clearCart();
       router.push('/success');
     } catch (e: any) {
@@ -98,10 +64,9 @@ export default function CheckoutPage() {
   };
 
   const handlePlace = () => {
-    if (payment === 'Cash on Delivery') { finalise(); return; }
     if (payment === 'Order via WhatsApp') {
       const itemsList = cart.map(i => `${i.name} (Size: ${i.selectedSize}, Color: ${i.selectedColor || 'N/A'}, Qty: ${i.quantity})`).join('\n');
-      const orderSummary = `Hi, I would like to place an order! Due to technical issues with the website payment, I am sending my order details here:\n\n*Cart Items:*\n${itemsList}\n\n*Total Checkout Amount: ₹${total.toLocaleString()}*\n\n*My Delivery Details:*\nName: ${addr.fullName}\nPhone: ${addr.phone}\nEmail: ${addr.email}\nAddress: ${addr.addressLine1}, ${addr.addressLine2 ? addr.addressLine2 + ', ' : ''}${addr.city}, ${addr.state} - ${addr.pincode}`;
+      const orderSummary = `Hi, I would like to place an order!\n\n*Cart Items:*\n${itemsList}\n\n*Total Checkout Amount: ₹${total.toLocaleString()}*\n\n*My Delivery Details:*\nName: ${addr.fullName}\nPhone: ${addr.phone}\nEmail: ${addr.email}\nAddress: ${addr.addressLine1}, ${addr.addressLine2 ? addr.addressLine2 + ', ' : ''}${addr.city}, ${addr.state} - ${addr.pincode}`;
 
       const msg = encodeURIComponent(orderSummary);
       window.open(`https://wa.me/918309664356?text=${msg}`, '_blank');
@@ -109,9 +74,6 @@ export default function CheckoutPage() {
       finalise();
       return;
     }
-
-    // Razorpay temporarily disabled
-    // openCheckout({...});
   };
 
   const Field = ({ label, f, type = 'text', span2 = false }: { label: string; f: keyof Address; type?: string; span2?: boolean }) => (
@@ -150,11 +112,19 @@ export default function CheckoutPage() {
     <div className="pb-40 bg-lavender-bg min-h-screen">
       {/* Mobile header */}
       <div className="md:hidden bg-white px-4 py-5 flex items-center gap-4 border-b border-luxury-border">
-        <button onClick={() => step > 1 ? setStep(s => s - 1) : router.back()} className="p-2"><ChevronLeft size={24} /></button>
+        <button onClick={() => step > 1 ? setStep(s => s - 1) : router.back()} className="p-2 hover:bg-lavender-bg rounded-full transition-colors"><ChevronLeft size={24} /></button>
         <h1 className="text-xl font-serif font-bold">Checkout</h1>
       </div>
 
-      <div className="max-w-7xl mx-auto md:px-12 md:py-12">
+      <div className="max-w-7xl mx-auto md:px-12 md:py-8">
+        {/* Desktop Back Button */}
+        <div className="hidden md:flex mb-6">
+          <button onClick={() => step > 1 ? setStep(s => s - 1) : router.back()} 
+            className="flex items-center gap-2 text-sm font-bold text-muted-text hover:text-royal-purple transition-colors">
+            <ChevronLeft size={20} /> Back
+          </button>
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-12">
 
           {/* Left — stepper + forms */}
@@ -197,15 +167,7 @@ export default function CheckoutPage() {
 
               {step === 2 && (
                 <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
-                  <h2 className="text-2xl font-serif font-bold">Payment Method</h2>
-
-                  <div className="bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-start gap-3 text-amber-800">
-                    <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="font-bold text-sm mb-1">Temporary Payment Issue</h4>
-                      <p className="text-xs">We are currently facing technical issues with our Razorpay online payments. Please select <strong>Order via WhatsApp</strong> to complete your purchase while we resolve this.</p>
-                    </div>
-                  </div>
+                  <h2 className="text-2xl font-serif font-bold mb-6">Payment Method</h2>
 
                   <div className="flex flex-col gap-4">
                     {PAYMENT_METHODS.map(m => (
@@ -252,11 +214,6 @@ export default function CheckoutPage() {
                 </div>
               </div>
               <div className="mt-8"><ActionBtn /></div>
-              {step === 2 && payment !== 'Cash on Delivery' && (
-                <p className="mt-4 text-[10px] text-center text-muted-text flex items-center justify-center gap-1">
-                  <ShieldCheck size={12} className="text-emerald-500" /> 256-bit SSL secured via Razorpay
-                </p>
-              )}
             </div>
           </div>
         </div>

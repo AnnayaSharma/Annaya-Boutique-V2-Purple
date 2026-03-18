@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Playfair_Display, Inter } from 'next/font/google';
-import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { AppProvider } from '@/context/AppContext';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -28,13 +27,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <body className="bg-lavender-bg text-primary-text font-sans antialiased">
-        <UserProvider>
-          <AppProvider>
-            <Navigation />
-            <main>{children}</main>
-            <Footer />
-          </AppProvider>
-        </UserProvider>
+        <AppProvider>
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
+        </AppProvider>
         <Analytics />
       </body>
     </html>

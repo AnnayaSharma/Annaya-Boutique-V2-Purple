@@ -1,21 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from '@auth0/nextjs-auth0';
 import { connectDB } from '@/lib/mongodb';
 import Order from '@/models/Order';
 import UserProfile from '@/models/UserProfile';
 
-async function checkAdmin(req: NextRequest, res: NextResponse) {
-  const session = await getSession(req, res);
-  if (!session?.user?.email) return false;
-  const adminEmails = (process.env.ADMIN_EMAILS || '').split(',').map(e => e.trim().toLowerCase());
-  return adminEmails.includes(session.user.email.toLowerCase());
-}
-
 export async function GET(req: NextRequest) {
   try {
-    const res = new NextResponse();
-    if (!(await checkAdmin(req, res))) return NextResponse.json({}, { status: 403 });
-
     await connectDB();
     const orders = await Order.find().sort({ createdAt: -1 }).lean();
     
@@ -42,9 +31,6 @@ export async function GET(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const res = new NextResponse();
-    if (!(await checkAdmin(req, res))) return NextResponse.json({}, { status: 403 });
-
     const { id, status } = await req.json();
     if (!id || !status) return NextResponse.json({ message: 'ID and status required' }, { status: 400 });
 

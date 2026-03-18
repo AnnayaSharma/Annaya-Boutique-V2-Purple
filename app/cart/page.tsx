@@ -16,11 +16,7 @@ export default function CartPage() {
   const shipping = subtotal > 5000 ? 0 : 150;
   const total = subtotal + shipping;
 
-  const handleWhatsAppOrder = () => {
-    const text = cart.map((i) => `${i.name} (${i.selectedSize}${i.selectedColor ? `, ${i.selectedColor}` : ''}) x ${i.quantity} = ₹${i.price * i.quantity}`).join('\n');
-    const msg = encodeURIComponent(`Hi, I'm interested in buying these items:\n\n${text}\n\nSubtotal: ₹${subtotal}\nTotal: ₹${total}`);
-    window.open(`https://wa.me/918309664356?text=${msg}`, '_blank');
-  };
+
 
   if (cart.length === 0) return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] p-8 text-center">
@@ -104,8 +100,8 @@ export default function CartPage() {
 
       <div className="fixed bottom-0 left-0 right-0 z-50 glass p-4 pb-8 border-t border-luxury-border flex flex-col gap-3">
         <button onClick={() => router.push('/checkout')}
-          className="w-full bg-royal-purple text-white h-14 rounded-2xl font-bold text-lg shadow-xl shadow-royal-purple/20 flex items-center justify-center gap-3 active:scale-95 transition-transform">
-          Proceed to Checkout <ArrowRight size={22} />
+          className="w-full bg-[#25D366] text-white h-14 rounded-2xl font-bold text-lg shadow-xl shadow-[#25D366]/20 flex items-center justify-center gap-3 active:scale-95 transition-transform">
+          <MessageCircle size={22} /> Buy on WhatsApp <ArrowRight size={22} />
         </button>
       </div>
     </div>

@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useUser } from '@auth0/nextjs-auth0/client';
 import { useApp } from '@/context/AppContext';
 import { AnimatePresence, motion } from 'motion/react';
 import {
@@ -12,7 +11,6 @@ import {
 
 export default function Navigation() {
   const pathname               = usePathname();
-  const { user, isLoading }    = useUser();
   const { cart, wishlist }     = useApp();
   const cartCount              = cart.reduce((a, i) => a + i.quantity, 0);
   const hideNav                = ['/checkout', '/success'].includes(pathname);
@@ -64,31 +62,6 @@ export default function Navigation() {
             <Search size={24} />
           </Link>
 
-          {isLoading ? (
-            <span className="p-2"><Loader2 size={22} className="animate-spin text-royal-purple" /></span>
-          ) : user ? (
-            <div className="hidden md:flex items-center gap-3">
-              <Link href="/account" className="flex items-center gap-2 hover:text-royal-purple transition-colors">
-                {user.picture
-                  ? <img src={String(user.picture)} alt={String(user.name ?? '')} className="w-8 h-8 rounded-full object-cover border-2 border-royal-purple/30" />
-                  : <div className="w-8 h-8 rounded-full bg-lavender-bg border-2 border-royal-purple/30 flex items-center justify-center"><User size={16} className="text-royal-purple" /></div>
-                }
-                <span className="hidden lg:block text-sm font-bold">
-                  {String(user.given_name ?? user.name ?? 'Account').split(' ')[0]}
-                </span>
-              </Link>
-              <a href="/api/auth/logout"
-                className="flex items-center gap-1 text-xs font-bold text-muted-text hover:text-red-500 transition-colors uppercase tracking-widest">
-                <LogOut size={16} />
-              </a>
-            </div>
-          ) : (
-            <a href="/api/auth/login"
-              className="hidden md:flex items-center gap-2 text-sm font-bold text-royal-purple border border-royal-purple px-4 py-2 rounded-full hover:bg-royal-purple hover:text-white transition-all">
-              <LogIn size={18} /> Sign In
-            </a>
-          )}
-
           <Link href="/cart" className="p-2 relative text-primary-text hover:text-royal-purple transition-colors">
             <ShoppingCart size={24} />
             <AnimatePresence>
@@ -111,7 +84,6 @@ export default function Navigation() {
             { icon: ShoppingBag,  label: 'Shop',     href: '/shop' },
             { icon: Heart,        label: 'Wishlist', href: '/wishlist', badge: wishlist.length },
             { icon: ShoppingCart, label: 'Cart',     href: '/cart',     badge: cartCount },
-            { icon: User,         label: 'Account',  href: user ? '/account' : '/api/auth/login' },
           ].map(item => {
             const active = pathname === item.href;
             return (

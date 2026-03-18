@@ -6,8 +6,6 @@ import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 
 export default function SuccessPage() {
-  const { lastOrderId } = useApp();
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 text-center bg-lavender-bg">
       <div className="max-w-md w-full flex flex-col items-center">
@@ -19,37 +17,28 @@ export default function SuccessPage() {
           <CheckCircle2 size={48} className="text-royal-purple" />
         </motion.div>
 
-        <motion.h1 initial={{ opacity:0,y:20 }} animate={{ opacity:1,y:0 }} transition={{ delay:0.2 }}
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
           className="text-4xl md:text-5xl font-serif font-bold mb-4 text-deep-purple">
           Thank You!
         </motion.h1>
 
-        <motion.p initial={{ opacity:0,y:20 }} animate={{ opacity:1,y:0 }} transition={{ delay:0.3 }}
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
           className="text-muted-text mb-2 text-lg">
-          Your order has been placed successfully.
+          We've received your details we will get back to you soon!
         </motion.p>
 
-        {lastOrderId && (
-          <motion.p initial={{ opacity:0,y:20 }} animate={{ opacity:1,y:0 }} transition={{ delay:0.4 }}
-            className="text-sm font-bold text-royal-purple mb-4">
-            Order ID: #{lastOrderId}
-          </motion.p>
-        )}
 
-        <motion.p initial={{ opacity:0,y:20 }} animate={{ opacity:1,y:0 }} transition={{ delay:0.45 }}
+
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }}
           className="text-xs text-muted-text mb-12">
-          A confirmation email has been sent. Track your order in the Account section.
+          Your items will be dispatched to you soon!
         </motion.p>
 
-        <motion.div initial={{ opacity:0,y:20 }} animate={{ opacity:1,y:0 }} transition={{ delay:0.5 }}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
           className="flex flex-col w-full gap-4">
           <Link href="/shop"
             className="bg-royal-purple text-white h-16 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg shadow-royal-purple/20 hover:opacity-90 transition-opacity">
             Continue Shopping <ArrowRight size={20} />
-          </Link>
-          <Link href="/account"
-            className="bg-white text-royal-purple h-16 rounded-2xl font-bold flex items-center justify-center gap-2 border border-luxury-border hover:bg-lavender-bg transition-colors">
-            View My Orders
           </Link>
         </motion.div>
       </div>
