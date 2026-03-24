@@ -8,10 +8,10 @@ export default function Footer() {
           <div className="text-3xl font-serif font-bold text-royal-purple mb-6">ANNAYA</div>
           <p className="text-muted-text text-sm leading-relaxed mb-6">Redefining royal elegance for the modern woman.</p>
           <div className="flex flex-col gap-2">
-            <a href="tel:+918309664356" className="text-sm text-primary-text hover:text-royal-purple transition-colors flex items-center gap-2">
+            <a href="tel:+917600558179" className="text-sm text-primary-text hover:text-royal-purple transition-colors flex items-center gap-2">
               <span className="font-bold">Phone:</span> +91 72969 36485
             </a>
-            <a href="https://wa.me/918309664356" target="_blank" rel="noreferrer" className="text-sm text-primary-text hover:text-royal-purple transition-colors flex items-center gap-2">
+            <a href="https://wa.me/917600558179" target="_blank" rel="noreferrer" className="text-sm text-primary-text hover:text-royal-purple transition-colors flex items-center gap-2">
               <span className="font-bold">WhatsApp:</span> +91 72969 36485
             </a>
             <a href="mailto:clothananya@gmail.com" className="text-sm text-primary-text hover:text-royal-purple transition-colors flex items-center gap-2">

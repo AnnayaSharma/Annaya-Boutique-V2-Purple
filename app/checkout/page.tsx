@@ -69,7 +69,7 @@ export default function CheckoutPage() {
       const orderSummary = `Hi, I would like to place an order!\n\n*Cart Items:*\n${itemsList}\n\n*Total Checkout Amount: ₹${total.toLocaleString()}*\n\n*My Delivery Details:*\nName: ${addr.fullName}\nPhone: ${addr.phone}\nEmail: ${addr.email}\nAddress: ${addr.addressLine1}, ${addr.addressLine2 ? addr.addressLine2 + ', ' : ''}${addr.city}, ${addr.state} - ${addr.pincode}`;
 
       const msg = encodeURIComponent(orderSummary);
-      window.open(`https://wa.me/918309664356?text=${msg}`, '_blank');
+      window.open(`https://wa.me/917600558179?text=${msg}`, '_blank');
       
       finalise();
       return;
