@@ -16,6 +16,53 @@ interface Address {
 
 const PAYMENT_METHODS = ['Order via WhatsApp'];
 
+const Field = ({ label, value, onChange, type = 'text', span2 = false }: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  span2?: boolean;
+}) => (
+  <div className={span2 ? 'md:col-span-2' : ''}>
+    <label className="text-[10px] font-bold uppercase tracking-widest text-muted-text ml-4 mb-1 block">{label}</label>
+    <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={label}
+      className="w-full bg-white border border-luxury-border rounded-2xl px-6 py-4 outline-none focus:border-royal-purple transition-colors text-sm" />
+  </div>
+);
+
+const ActionBtn = ({
+  mobile = false,
+  step,
+  handleNext,
+  handlePlace,
+  processing,
+  payment
+}: {
+  mobile?: boolean;
+  step: number;
+  handleNext: () => void;
+  handlePlace: () => void;
+  processing: boolean;
+  payment: string;
+}) => (
+  step < 2 ? (
+    <button onClick={handleNext}
+      className={`w-full bg-royal-purple text-white font-bold flex items-center justify-center gap-3 shadow-xl shadow-royal-purple/20 active:scale-95 transition-transform ${mobile ? 'h-16 rounded-2xl text-lg' : 'h-14 rounded-xl hover:opacity-90 transition-opacity'}`}>
+      Continue <ArrowRight size={mobile ? 22 : 20} />
+    </button>
+  ) : (
+    <button onClick={handlePlace} disabled={processing}
+      className={`w-full text-white font-bold flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-transform disabled:opacity-70 ${mobile ? 'h-16 rounded-2xl text-lg' : 'h-14 rounded-xl hover:opacity-90 transition-opacity'} ${payment === 'Order via WhatsApp' ? 'bg-[#25D366] shadow-[#25D366]/20' : 'bg-royal-purple shadow-royal-purple/20'}`}>
+      {processing
+        ? <><Loader2 size={mobile ? 22 : 20} className="animate-spin" /> Processing…</>
+        : payment === 'Order via WhatsApp'
+          ? <><MessageCircle size={mobile ? 22 : 20} /> Order on WhatsApp</>
+          : <><Check size={mobile ? 22 : 20} /> Place Order</>
+      }
+    </button>
+  )
+);
+
 export default function CheckoutPage() {
   const router = useRouter();
   const { cart, setLastOrderId, clearCart } = useApp();
@@ -76,37 +123,10 @@ export default function CheckoutPage() {
     }
   };
 
-  const Field = ({ label, f, type = 'text', span2 = false }: { label: string; f: keyof Address; type?: string; span2?: boolean }) => (
-    <div className={span2 ? 'md:col-span-2' : ''}>
-      <label className="text-[10px] font-bold uppercase tracking-widest text-muted-text ml-4 mb-1 block">{label}</label>
-      <input type={type} value={addr[f]} onChange={e => set(f, e.target.value)} placeholder={label}
-        className="w-full bg-white border border-luxury-border rounded-2xl px-6 py-4 outline-none focus:border-royal-purple transition-colors text-sm" />
-    </div>
-  );
-
   const steps = [
     { id: 1, title: 'Address', icon: MapPin },
     { id: 2, title: 'Payment', icon: CreditCard },
   ];
-
-  const ActionBtn = ({ mobile = false }) => (
-    step < 2 ? (
-      <button onClick={handleNext}
-        className={`w-full bg-royal-purple text-white font-bold flex items-center justify-center gap-3 shadow-xl shadow-royal-purple/20 active:scale-95 transition-transform ${mobile ? 'h-16 rounded-2xl text-lg' : 'h-14 rounded-xl hover:opacity-90 transition-opacity'}`}>
-        Continue <ArrowRight size={mobile ? 22 : 20} />
-      </button>
-    ) : (
-      <button onClick={handlePlace} disabled={processing}
-        className={`w-full text-white font-bold flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-transform disabled:opacity-70 ${mobile ? 'h-16 rounded-2xl text-lg' : 'h-14 rounded-xl hover:opacity-90 transition-opacity'} ${payment === 'Order via WhatsApp' ? 'bg-[#25D366] shadow-[#25D366]/20' : 'bg-royal-purple shadow-royal-purple/20'}`}>
-        {processing
-          ? <><Loader2 size={mobile ? 22 : 20} className="animate-spin" /> Processing…</>
-          : payment === 'Order via WhatsApp'
-            ? <><MessageCircle size={mobile ? 22 : 20} /> Order on WhatsApp</>
-            : <><Check size={mobile ? 22 : 20} /> Place Order</>
-        }
-      </button>
-    )
-  );
 
   return (
     <div className="pb-40 bg-lavender-bg min-h-screen">
@@ -153,14 +173,14 @@ export default function CheckoutPage() {
                 <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
                   <h2 className="text-2xl font-serif font-bold">Shipping Address</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Field label="Full Name" f="fullName" span2 />
-                    <Field label="Phone Number" f="phone" type="tel" />
-                    <Field label="Email Address" f="email" type="email" />
-                    <Field label="Address Line 1" f="addressLine1" span2 />
-                    <Field label="Address Line 2 (Optional)" f="addressLine2" span2 />
-                    <Field label="City" f="city" />
-                    <Field label="State" f="state" />
-                    <Field label="PIN Code" f="pincode" type="tel" span2 />
+                    <Field label="Full Name" value={addr.fullName} onChange={v => set('fullName', v)} span2 />
+                    <Field label="Phone Number" value={addr.phone} onChange={v => set('phone', v)} type="tel" />
+                    <Field label="Email Address" value={addr.email} onChange={v => set('email', v)} type="email" />
+                    <Field label="Address Line 1" value={addr.addressLine1} onChange={v => set('addressLine1', v)} span2 />
+                    <Field label="Address Line 2 (Optional)" value={addr.addressLine2} onChange={v => set('addressLine2', v)} span2 />
+                    <Field label="City" value={addr.city} onChange={v => set('city', v)} />
+                    <Field label="State" value={addr.state} onChange={v => set('state', v)} />
+                    <Field label="PIN Code" value={addr.pincode} onChange={v => set('pincode', v)} type="tel" span2 />
                   </div>
                 </motion.div>
               )}
@@ -213,7 +233,15 @@ export default function CheckoutPage() {
                   <span>Total</span><span className="text-royal-purple">₹{total.toLocaleString()}</span>
                 </div>
               </div>
-              <div className="mt-8"><ActionBtn /></div>
+              <div className="mt-8">
+                <ActionBtn
+                  step={step}
+                  handleNext={handleNext}
+                  handlePlace={handlePlace}
+                  processing={processing}
+                  payment={payment}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -221,7 +249,14 @@ export default function CheckoutPage() {
 
       {/* Mobile sticky bar */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 glass p-6 pb-10 border-t border-luxury-border">
-        <ActionBtn mobile />
+        <ActionBtn
+          mobile
+          step={step}
+          handleNext={handleNext}
+          handlePlace={handlePlace}
+          processing={processing}
+          payment={payment}
+        />
       </div>
     </div>
   );
