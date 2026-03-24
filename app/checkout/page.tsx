@@ -70,7 +70,7 @@ export default function CheckoutPage() {
 
       const msg = encodeURIComponent(orderSummary);
       window.open(`https://wa.me/917600558179?text=${msg}`, '_blank');
-      
+
       finalise();
       return;
     }
@@ -119,7 +119,7 @@ export default function CheckoutPage() {
       <div className="max-w-7xl mx-auto md:px-12 md:py-8">
         {/* Desktop Back Button */}
         <div className="hidden md:flex mb-6">
-          <button onClick={() => step > 1 ? setStep(s => s - 1) : router.back()} 
+          <button onClick={() => step > 1 ? setStep(s => s - 1) : router.back()}
             className="flex items-center gap-2 text-sm font-bold text-muted-text hover:text-royal-purple transition-colors">
             <ChevronLeft size={20} /> Back
           </button>

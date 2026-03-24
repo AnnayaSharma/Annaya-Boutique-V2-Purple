@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin, Send } from 'lucide-react';
 export default function ContactPage() {
   const info = [
     { icon: Mail, label: 'Email', value: 'clothananya@gmail.com' },
-    { icon: Phone, label: 'Phone', value: '+91 72969 36485' },
+    { icon: Phone, label: 'Phone', value: '+91 76005 58179' },
     { icon: MapPin, label: 'Boutique', value: 'Jaipur, Rajasthan, India' },
   ];
 
