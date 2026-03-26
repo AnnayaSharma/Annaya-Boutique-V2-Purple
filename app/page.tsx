@@ -13,7 +13,7 @@ function mapDocToProduct(doc: any): ProductType {
 
 export default async function HomePage() {
   await connectDB();
-  const rawFeatured = await Product.find({ isFeatured: true }).limit(4).lean();
+  const rawFeatured = await Product.find({ isNewArrival: true }).sort({ createdAt: -1 }).lean();
   const rawNewArrivals = await Product.find({ isNewArrival: true }).limit(6).lean();
   const categoriesDocs = await Product.distinct('category');
 
