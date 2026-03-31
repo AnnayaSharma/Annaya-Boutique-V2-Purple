@@ -22,5 +22,5 @@ const getProducts = unstable_cache(
 
 export default async function ShopPage() {
   const products = await getProducts();
-  return <ShopClient initialProducts={products} />;
+  return <ShopClient initialProducts={JSON.parse(JSON.stringify(products))} />;
 }
